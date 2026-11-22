@@ -1,0 +1,284 @@
+{
+ "report": "shared/lit_review.md",
+ "language": "zh-CN",
+ "checked_on": "2026-11-22",
+ "papers": [
+  {
+   "key": "wu2019nature",
+   "title": "Large teams develop and small teams disrupt science and technology",
+   "authors": [
+    "Lingfei Wu",
+    "Dashun Wang",
+    "James A. Evans"
+   ],
+   "venue": "Nature",
+   "year": 2019,
+   "volume": "566",
+   "issue": "7744",
+   "pages": "378-382",
+   "doi": "10.1038/s41586-019-0941-9",
+   "doi_verified": true,
+   "doi_sources": [
+    "https://www.nature.com/articles/s41586-019-0941-9",
+    "https://api.crossref.org/works/10.1038/s41586-019-0941-9",
+    "https://europepmc.org/article/MED/30760923"
+   ],
+   "full_text_accessed": false,
+   "full_text_note": "出版社页面为付费墙，仅取到公开摘要、参考文献与 Extended Data 图注；Europe PMC 只有摘要；PubMed 被 CAPTCHA 拦截。CD 公式逐字原文未能取得，故未引用。"
+  },
+  {
+   "key": "funk2017mgmtsci",
+   "title": "A Dynamic Network Measure of Technological Change",
+   "authors": [
+    "Russell J. Funk",
+    "Jason Owen-Smith"
+   ],
+   "venue": "Management Science",
+   "year": 2017,
+   "volume": "63",
+   "issue": "3",
+   "pages": "791-817",
+   "doi": "10.1287/mnsc.2015.2366",
+   "doi_verified": true,
+   "doi_sources": [
+    "https://api.crossref.org/works/10.1287/mnsc.2015.2366",
+    "https://public.websites.umich.edu/~jdos/papers/A_Dynamic_Network_Measure_of_Technological_Change.pdf"
+   ],
+   "full_text_accessed": true,
+   "full_text_note": "作者公开的期刊排版 PDF，含式 (1)(2)(3)、n_t 定义、CD5 与 5 年窗口理由。"
+  }
+ ],
+ "cd_definition_quote": "From Funk & Owen-Smith (2017), Management Science 63(3):791-817, pp. 794-795, Eq. (1)-(3): \"CD t = 1/n_t * sum_{i=1}^{n_t} [(-2 f_it b_it + f_it) w_it], w_it > 0\" with \"f_it = 1 if i cites the focal patent (type f), 0 otherwise\" and \"b_it = 1 if i cites any focal patent predecessors (type b), 0 otherwise\", and \"n_t is the number of forward citations of both the focal patent and/or its technological predecessors\". Expanding the sum gives CD = (n_i - n_j) / (n_i + n_j + n_k), where n_i = only cites the focal work, n_j = cites both the focal work and its references, n_k = only cites its references.",
+ "cd_definition_quote_source": {
+  "paper": "funk2017mgmtsci",
+  "url": "https://public.websites.umich.edu/~jdos/papers/A_Dynamic_Network_Measure_of_Technological_Change.pdf",
+  "location": "Section 2.3 Measure Development, pp. 794-795, Eq. (1)-(3)"
+ },
+ "cd_naming_in_wu2019": {
+  "symbol": "D (disruption; D_0 in main text)",
+  "quote": "Subsequent work may cite: (1) only the focal work (i, green), (2) only its references (k, black) or (3) both focal work and references (j, brown).",
+  "source": "Wu et al. 2019 Extended Data Fig. 5g legend, https://www.nature.com/articles/s41586-019-0941-9"
+ },
+ "five_year_window_source": {
+  "origin_paper": "funk2017mgmtsci",
+  "quote": "Most of our analyses in this and later sections evaluate impact and the CD t and mCD t indexes using forward citations made during the first five years after the focal patent's issue, because annual citations of most patents reach their peak within this time frame (Jaffe and Trajtenberg 2002). We denote these quantities as I5, CD 5, and mCD 5, respectively.",
+  "url": "https://public.websites.umich.edu/~jdos/papers/A_Dynamic_Network_Measure_of_Technological_Change.pdf",
+  "location": "Section 3.1 Descriptive Statistics and Correlations",
+  "undefined_rate_5y": "82,572 of 2.9 million (2.8%)",
+  "wu2019_usage": "5-year window is the main specification; Extended Data Fig. 3 d-h tests robustness for windows from 5 to 40 years on 166,310 WOS papers published in 1970, and i-m repeats it on 24,174,022 papers 1954-2014.",
+  "wu2019_verbatim_formula_obtained": false
+ },
+ "equivalence": {
+  "statement": "(A - 2J)/(A + B - J) = (n_i - n_j)/(n_i + n_j + n_k)",
+  "verdict": "strict",
+  "verdict_qualification": "Strict algebraic identity holding exactly when B = n_j + n_k (i.e. the implementation's minus-1 correction equals zero and the citation-count set is identical). If B differs from n_j + n_k the two expressions are only approximately equal; the script's 'B - 1' makes the strict form conditional.",
+  "derivation": [
+   "A = n_i + n_j: every paper citing the focal work in the window either cites only the focal work (n_i) or also its references (n_j); the two classes are disjoint and exhaustive.",
+   "J = n_j: papers citing both the focal work and any of its references are exactly the n_j class.",
+   "B = n_j + n_k - k: if the raw count of papers citing any reference of the focal work is n_j + n_k, the script's B (= raw count - 1) equals n_j + n_k - k with k = 1.",
+   "Numerator: A - 2J = (n_i + n_j) - 2n_j = n_i - n_j.",
+   "Denominator with k = 0: A + B - J = (n_i + n_j) + (n_j + n_k) - n_j = n_i + n_j + n_k.",
+   "Combine: (A - 2J)/(A + B - J) = (n_i - n_j)/(n_i + n_j + n_k)."
+  ],
+  "assumptions": [
+   "The set of papers citing any reference of the focal work within the window is exactly the focal work's predecessor set used in the literature (same reference universe).",
+   "OpenAlex meta.count counts distinct works, not citation edges, and is unaffected by pagination.",
+   "The literature definition already deduplicates: b_it equals 1 if a paper cites ANY predecessor (Eq. 3), so a paper citing several references still counts once; the 'any reference' counting in the code matches this."
+  ],
+  "algorithmic_check": {
+   "tool": "sympy",
+   "result": "simplify((A-2J)/(A+B-J) - (ni-nj)/(ni+nj+nk)) == 0; denominator expands to ni + nj + nk"
+  },
+  "numeric_check": {
+   "tool": "python fractions.Fraction",
+   "samples": 200000,
+   "mismatches": 0,
+   "max_abs_error": 0.0,
+   "sampling": "n_i, n_j, n_k drawn independently uniform integers in [0, 500]"
+  },
+  "minus_one_analysis": {
+   "code_line": "B = get({'filter': f\"cites:{orr},{win}\", ...})['meta']['count'] - 1",
+   "theory": "Papers citing the focal work's references in the window are n_j or n_k; the focal work itself cannot cite its own references inside its own citation window, so subtracting 1 has no theoretical basis under the 'papers citing its references' definition.",
+   "effect_formula": "With B = n_j + n_k - k the script computes (n_i - n_j)/(n_i + n_j + n_k - k); identity holds only when k = 0.",
+   "batch1_effect": {
+    "file": "data/batch1_local.csv",
+    "n": 320,
+    "replacing_B_with_B_plus_1": {
+     "definition": "delta = CD5(B) - CD5(B+1) = script value minus literature value, computed exactly with fractions.Fraction over all 320 rows",
+     "mean_shift": 0.00014912,
+     "median_shift": -1.5854e-08,
+     "min_shift": -0.0020243,
+     "max_shift": 0.047619,
+     "max_shift_row": "W2319460288 (A=2, B=4, J=0)",
+     "positive": 70,
+     "negative": 202,
+     "zero": 48
+    },
+    "sign_flips": 0,
+    "note": "No CD5 sign flips in any of the 320 papers. The bias is a small systematic POSITIVE shift: most rows shift by ~1e-8 (negligible), a few rows with tiny A and B shift by up to ~4.8e-2, lifting the mean to +1.49e-4; B is usually far larger than A so the denominator barely moves."
+   },
+   "impact_on_protocol_verdict": "No effect on H1 sign-based verdict observed in batch1; still a measurable deviation from the literature definition at the individual-CD5 level.",
+   "requires_lead_escalation": true,
+   "correction_log": {
+    "date": "2026-11-22",
+    "item": "batch1 effect of the minus-1 correction",
+    "what_changed": "Sign of the mean shift and the positive/negative counts were reversed in the previous version; magnitudes and the zero-sign-flip result were correct.",
+    "previous_values": "mean ~ -1.49e-4; positive 202; negative 70",
+    "current_values": "mean +1.49e-4; positive 70; negative 202; zero 48; min -2.02e-3; max +4.76e-2",
+    "conclusion_unchanged": true,
+    "method": "fractions.Fraction exact recomputation over all 320 rows of data/batch1_local.csv"
+   }
+  },
+  "example_table_k_effect": [
+   {
+    "n_i": 10,
+    "n_j": 5,
+    "n_k": 20,
+    "k0": "1/7",
+    "k1": "5/34",
+    "diff": "1/238"
+   },
+   {
+    "n_i": 3,
+    "n_j": 0,
+    "n_k": 50,
+    "k0": "3/53",
+    "k1": "3/52",
+    "diff": "3/2756"
+   },
+   {
+    "n_i": 0,
+    "n_j": 4,
+    "n_k": 100,
+    "k0": "-1/26",
+    "k1": "-4/103",
+    "diff": "-1/2678"
+   },
+   {
+    "n_i": 5,
+    "n_j": 2,
+    "n_k": 30,
+    "k0": "3/37",
+    "k1": "1/12",
+    "diff": "1/444"
+   }
+  ]
+ },
+ "conclusion_summary": {
+  "direction": "Negative with team size: larger teams tend to develop existing lines of work while smaller teams tend to disrupt.",
+  "quote": "smaller teams have tended to disrupt science and technology with new ideas and opportunities, whereas larger teams have tended to develop existing ones",
+  "sample": "more than 65 million papers, patents and software products, 1954-2014",
+  "explanations_given_by_authors": [
+   "Larger teams build on more recent and popular developments and receive attention immediately.",
+   "Smaller teams search more deeply into the past, are seen as disruptive, and succeed further into the future, if at all.",
+   "Differences are magnified for higher-impact work.",
+   "Topic and research design explain only a small part; most of the effect occurs at the individual level as people move between team sizes.",
+   "Both team sizes are essential; policy should support a diversity of team sizes."
+  ],
+  "accounting_note": "Funk & Owen-Smith (2017) report a small POSITIVE correlation between number of inventors and CD5 in patent data (r = 0.02, p < 0.001), i.e. opposite in sign to Wu et al.'s paper-based result; data type, window and sample differ, so do not transpose results across the two."
+ },
+ "unverified": [
+  {
+   "item": "Wu et al. 2019 verbatim sentence defining the CD/D formula in the main text",
+   "status": "查不到",
+   "attempts": [
+    "https://www.nature.com/articles/s41586-019-0941-9 (paywall; abstract only)",
+    "https://europepmc.org/article/MED/30760923 (abstract only, no free full text)",
+    "https://pubmed.ncbi.nlm.nih.gov/30760923/ (CAPTCHA)",
+    "DuckDuckGo: \"Large teams develop and small teams disrupt\" PMC full text disruption index formula",
+    "DuckDuckGo: \"Large teams develop and small teams disrupt science and technology\" full text pdf knowledge lab uchicago OR arxiv.org 1902"
+   ],
+   "workaround": "Use Funk & Owen-Smith 2017 Eq. (1)-(3) plus Wu et al. Extended Data Fig. 5g legend."
+  },
+  {
+   "item": "Wu et al. 2019 verbatim sentence describing the 5-year citation window in the main text",
+   "status": "查不到",
+   "attempts": [
+    "same as above"
+   ],
+   "workaround": "5-year window sourced from Funk & Owen-Smith 2017; Wu et al. used 5-40 year robustness in Extended Data Fig. 3."
+  },
+  {
+   "item": "Wu et al. 2019 reported regression coefficients on team size",
+   "status": "未能核对（正文付费墙，本报告不声称任何正文系数）",
+   "attempts": [
+    "Nature article page, Europe PMC"
+   ]
+  },
+  {
+   "item": "Jaffe & Trajtenberg (2002) original text",
+   "status": "查不到原文，未引用任何具体数字",
+   "attempts": [
+    "cited inside Funk & Owen-Smith 2017 as the rationale for the 5-year window only"
+   ]
+  }
+ ],
+ "sources": [
+  {
+   "id": "S1",
+   "type": "publisher article page",
+   "url": "https://www.nature.com/articles/s41586-019-0941-9",
+   "used_for": "Wu et al. metadata, abstract, Extended Data Fig. 3 and Fig. 5g legends"
+  },
+  {
+   "id": "S2",
+   "type": "Crossref public record",
+   "url": "https://api.crossref.org/works/10.1038/s41586-019-0941-9",
+   "used_for": "Wu et al. volume/issue/pages/DOI verification"
+  },
+  {
+   "id": "S3",
+   "type": "Crossref public record",
+   "url": "https://api.crossref.org/works/10.1287/mnsc.2015.2366",
+   "used_for": "Funk & Owen-Smith volume/issue/pages/DOI verification"
+  },
+  {
+   "id": "S4",
+   "type": "author-hosted journal PDF",
+   "url": "https://public.websites.umich.edu/~jdos/papers/A_Dynamic_Network_Measure_of_Technological_Change.pdf",
+   "used_for": "Funk & Owen-Smith Eq. (1)-(3), n_t, CD5, 5-year window rationale, CD5 distribution, inventors-CD5 correlation"
+  },
+  {
+   "id": "S5",
+   "type": "Europe PMC",
+   "url": "https://europepmc.org/article/MED/30760923",
+   "used_for": "Wu et al. abstract and DOI/PMID cross-check"
+  },
+  {
+   "id": "S6",
+   "type": "open-access secondary paper",
+   "url": "https://www.nature.com/articles/s41598-025-95264-8",
+   "used_for": "secondary corroboration of the 'following 5 years' CD5 practice and D formula form"
+  }
+ ],
+ "rejected_sources": [
+  "www.google.com/goto?url=... redirect links (not original pages)",
+  "ResearchGate page for Wu et al. (login wall, no text)",
+  "pubmed.ncbi.nlm.nih.gov/30760923/ (CAPTCHA page)"
+ ],
+ "process_notes": {
+  "network_fetch_scripts_run": false,
+  "files_written_outside_own_outputs": [],
+  "input_files_modified": false,
+  "data_dir_written": false
+ },
+ "recheck_2026_11_22": {
+  "scope": "Read-only re-verification of both delivered artifacts; no fetch script run, no source file modified.",
+  "doi_resolved": {
+   "10.1038/s41586-019-0941-9": "Nature 566(7744):378-382, online 2019-02-13, print 2019-02-21",
+   "10.1287/mnsc.2015.2366": "Management Science 63(3):791-817, INFORMS, 2017-03"
+  },
+  "funk2017_pdf_sha256": "dad58420e88f0a68f945fe7b5a762d317cb140ca1955ada81debc0628609ac42",
+  "verbatim_quotes_reconfirmed": [
+   "Eq. (1)-(3) and the three citation classes",
+   "n_t covers focal patent and/or its technological predecessors",
+   "first five years ... (Jaffe and Trajtenberg 2002)",
+   "82,572 of 2.9 million (2.8%)",
+   "CD5 mean 0.07, sd 0.23, range [-1,1]",
+   "larger teams produce more destabilizing inventions (Inventors coefficient positive in Tables 4 and 5)",
+   "Wu et al. abstract and Extended Data Figs 3 and 5g"
+  ],
+  "algebra_rechecked": "sympy simplify(LHS-RHS)=0; 200000 random integer triples, 0 mismatches; k-effect table reproduced exactly",
+  "wu2019_full_text": "Still paywalled (login/purchase present on page); verbatim main-text formula remains unavailable (查不到)."
+ }
+}

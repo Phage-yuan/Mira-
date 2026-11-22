@@ -1,0 +1,17 @@
+（发给 Mira 专家小队的任务说明全文，2026-11-21 14:36 CST 发送）
+
+任务：用 OpenAlex 公开真实数据，复现 Wu, Wang & Evans（Nature 2019）“团队越大，论文越不颠覆”的结论，并留下别人能重跑的记录。
+
+我上传了 5 个文件。请先在工作目录里摆成这个结构，文件内容一个字都不要改：
+PROTOCOL.md、Makefile 放在根目录；fetch_cd5.py、analyze.py 放进 src/；batch1_local.csv 放进 data/；另建空目录 results/。
+
+按顺序做：
+1. 主管：通读 PROTOCOL.md，确认判定标准在看第二批数据之前已经写死。之后任何人不得改判定标准、不得改脚本的计算逻辑。记下每个上传文件的 sha256。
+2. 并行两路：
+ （a）文献核对员：查 Wu, Wang & Evans 2019 和 Funk & Owen-Smith 2017 原文，核对 CD 指标的定义、5 年窗口的出处，确认 fetch_cd5.py 里的公式 CD5 = (A − 2J)/(A + B − J) 与文献定义等价（写出推导）；记下原论文的主要结论。能查到的给 DOI，查不到原文的如实写“查不到”，不要凭印象补。
+ （b）数据工程师：先发 1 次请求看 OpenAlex 的额度响应头 x-ratelimit-remaining，如实记录；然后运行 make fetch（约 900 次请求、5–7 分钟），完整保存终端输出和 results/fetch_log.txt。脚本会自动抽 10 篇用笨办法自检。如果额度不够或报错，照实记录，不要改脚本、不要造数据、不要换数据源。
+3. 统计分析员：运行 make repro，保存完整输出；按四个团队规模分组画一张图（延续型论文占比），存成 results/fig_share.png；把 H1、H2 的斜率、区间、判定整理成表。
+4. 独立审核员：不看 src/analyze.py，用 numpy 或 statsmodels 从 data/batch2_mira.csv 自己重算 H1、H2 的斜率和 95% 区间，另存脚本 audit/recompute.py 和输出；与 analyze.py 的结果逐项对比（斜率相差不得超过 1e-9，判定必须一致）；核对自检日志 10 篇是否全部一致。对不上就打回返工并写明原因。
+5. 审核通过后停下来，把对比表给我看，等我确认，再写最终报告 report.md（目标、数据来源、过程、验证方法、结论、局限；逐条标明哪些数字是实测、哪些是推算；失败的调用和返工也写进去）。
+
+要求：全程简体中文；所有数字必须来自实际运行的输出，附上命令；结论只按 PROTOCOL.md 的标准下，没过线就写没过线。最后把整个工作目录打包成 team-size-disruption.zip 供下载。

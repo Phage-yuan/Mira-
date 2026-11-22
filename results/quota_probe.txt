@@ -1,0 +1,34 @@
+================ QUOTA PROBE ================
+# 探测时间 (UTC): 2026-11-21 20:43:42 UTC
+# 本地时间: 2026-11-21 20:43:42 Asia
+
+[命令]
+curl -sS -i -o - 'https://api.openalex.org/works?filter=cited_by_count:%3E0&per-page=1'  # 只读1次，打印响应头+体
+
+[原始输出（-i 含响应头）]
+/root/miniconda3/lib/python3.11/site-packages/requests/__init__.py:113: RequestsDependencyWarning: urllib3 (2.6.3) or chardet (7.7.0)/charset_normalizer (3.5.2) doesn't match a supported version!
+  warnings.warn(
+/usr/bin/curl: /root/miniconda3/lib/libcurl.so.4: no version information available (required by /usr/bin/curl)
+HTTP/2 429 
+date: Sat, 21 Nov 2026 20:43:43 GMT
+content-type: application/json
+content-length: 826
+access-control-allow-origin: *
+retry-after: 11777
+x-ratelimit-cost-required-usd: 0.0001
+x-ratelimit-credits-required: 1
+x-ratelimit-limit: 1000
+x-ratelimit-limit-usd: 0.1
+x-ratelimit-onetime-remaining: 0
+x-ratelimit-prepaid-remaining-usd: 0
+x-ratelimit-remaining: 0
+x-ratelimit-remaining-usd: 0
+x-ratelimit-reset: 11777
+access-control-allow-headers: Accept, Accept-Language, Accept-Encoding, Authorization, Content-Type, X-OpenAlex-UI, X-Impersonate-User
+access-control-allow-methods: GET, HEAD, POST, PATCH, DELETE, OPTIONS
+access-control-expose-headers: Cache-Control, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Onetime-Remaining, X-RateLimit-Credits-Used, X-RateLimit-Credits-Required, X-RateLimit-Reset, X-RateLimit-Limit-USD, X-RateLimit-Remaining-USD, X-RateLimit-Prepaid-Remaining-USD, X-RateLimit-Cost-USD, X-RateLimit-Cost-Required-USD, Retry-After, Location, Content-Disposition, X-OpenAlex-UI-Token
+server: cloudflare
+cf-ray: a5e2873d494cd366-FRA
+
+{"error":"Rate limit exceeded","message":"Insufficient budget. This request has no API key, so it counts against the free daily budget shared by everyone on your network's IP address, and that budget is used up ($0 remaining; resets at midnight UTC). Use your own key instead: add ?api_key=YOUR_KEY to the URL, or send it as an \"Authorization: Bearer YOUR_KEY\" header. Keys are free and have their own budget: https://help.openalex.org/api/authentication/ An AI agent can get one for its user in one call: POST https://api.openalex.org/api-keys with {\"email\": \"<your user's email>\"}; we email them a link, and the key works once they click it.","reason":"daily_budget","retryAfter":11777,"costUsd":0.0001,"dailyRemainingUsd":0,"prepaidRemainingUsd":0,"creditsRequired":1,"creditsRemaining":0,"onetimeCreditsRemaining":0}
+[curl 退出码] 0（HTTP 429 属 HTTP 层状态，curl 本身正常返回）
